@@ -38,5 +38,21 @@ namespace UserManagementAPI.Controllers
             return Ok(data);
 
         }
+        [HttpDelete("delete-users")]
+        public async Task<ActionResult> Deleteusers(int id)
+        {
+            var user = context.DeleteUserAsync(id);
+            return Ok("User Delete successfully");
+        }
+        [HttpPatch]
+        public async Task<ActionResult> Updateuser([FromBody]User user)
+        {
+            var result = await context.UpdateUserAsync(user);
+            if (result == "User updated successfully")
+            {
+                return Ok(new { Message = result });
+            }
+            return NotFound(new { Message = result });
+        }
     }
 }

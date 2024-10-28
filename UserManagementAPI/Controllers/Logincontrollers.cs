@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UserManagementAPI.DTO;
 using UserManagementAPI.Repository.Interface;
@@ -19,5 +20,12 @@ public class AccountController : ControllerBase
     {
         var token = await authService.IsAuthenticated(loginDto);
         return token == null ? Unauthorized("Invalid credentials") : Ok(new { Token = token });
+    }
+
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        
+        return Ok(new { Message = "Successfully logged out" });
     }
 }

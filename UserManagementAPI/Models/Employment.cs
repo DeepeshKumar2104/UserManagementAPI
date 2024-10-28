@@ -7,7 +7,7 @@ public partial class Employment
 {
     public int EmploymentId { get; set; }
 
-    public int UserId { get; set; }
+    public int? UserId { get; set; }
 
     public string? Company { get; set; }
 
@@ -21,5 +21,5 @@ public partial class Employment
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; }
 }
