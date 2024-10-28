@@ -6,7 +6,7 @@ namespace UserManagementAPI.Repository.Interface
     {
  
         Task<string> AddUserAsync(User user);
-        Task UpdateUserAsync(User user);
-        Task DeleteUserAsync(int id);
+        Task<string> UpdateUserAsync(User user);
+        Task<string> DeleteUserAsync(int id);
     }
 }

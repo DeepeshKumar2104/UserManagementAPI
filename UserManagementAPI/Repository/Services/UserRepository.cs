@@ -36,15 +36,49 @@ namespace UserManagementAPI.Repository.Services
             return "User registered successfully";
         }
 
-        public Task DeleteUserAsync(int id)
+        public async Task<string>DeleteUserAsync(int id)
         {
-            throw new NotImplementedException();
+            var user = await context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            if (user == null)
+            {
+                return "User not found";
+            }
+            context.Users.Remove(user);
+            await context.SaveChangesAsync();
+            return "User deleted successfully";
         }
 
 
-        public Task UpdateUserAsync(User user)
+        public async Task<string>UpdateUserAsync(User user)
         {
-            throw new NotImplementedException();
+            var existingUser = await context.Users.FindAsync(user.UserId);
+            if(existingUser == null)
+            {
+                return $"User not found with associated id{user.UserId}";
+            }
+
+            existingUser.Name = user.Name;
+            existingUser.Email = user.Email;
+            existingUser.PhoneNumber = user.PhoneNumber;
+            existingUser.Gender = user.Gender;
+            existingUser.Bio = user.Bio;
+            existingUser.Username = user.Username;
+
+
+            if (!string.IsNullOrEmpty(user.PasswordHash))
+            {
+                var passwordHasher = new PasswordHasher<User>();
+                existingUser.PasswordHash = passwordHasher.HashPassword(existingUser, user.PasswordHash);
+            }
+
+            // Save changes to the context
+            context.Users.Update(existingUser);
+            await context.SaveChangesAsync();
+            return "User updated successfully";
         }
+
+       
+
+    
     }
 }

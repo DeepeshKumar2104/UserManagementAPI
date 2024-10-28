@@ -7,7 +7,7 @@ public partial class Address
 {
     public int AddressId { get; set; }
 
-    public int UserId { get; set; }
+    public int? UserId { get; set; }
 
     public string? Street { get; set; }
 
@@ -23,5 +23,5 @@ public partial class Address
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; }
 }
