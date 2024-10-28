@@ -1,26 +1,23 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using UserManagementAPI.DTO;
 using UserManagementAPI.Repository.Interface;
-using UserManagementAPI.Repository.Services;
 
-namespace UserManagementAPI.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class AccountController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class Logincontrollers : ControllerBase
-    {
-        private readonly IAuthInterface authService;
+    private readonly IAuthInterface authService;
 
-        public Logincontrollers(IAuthInterface _authService)
-        {
-            authService = _authService;
-        }
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDTO loginDto)
-        {
-            var result = await authService.IsAuthenticated(loginDto);
-            return result.StartsWith("Authentication successful") ? Ok(result) : Unauthorized(result);
-        }
+    public AccountController(IAuthInterface authService)
+    {
+        this.authService = authService;
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginDTO loginDto)
+    {
+        var token = await authService.IsAuthenticated(loginDto);
+        return token == null ? Unauthorized("Invalid credentials") : Ok(new { Token = token });
     }
 }
