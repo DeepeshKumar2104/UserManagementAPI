@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using UserManagementAPI.DTO;
 using UserManagementAPI.Models;
 using UserManagementAPI.Repository.Interface;
 
@@ -17,8 +18,8 @@ namespace UserManagementAPI.Controllers
             _context = context;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddAddress([FromBody] Address address)
+        [HttpPost("create-address")]
+        public async Task<IActionResult> AddAddress([FromBody] AddressDTO address)
         {
             if (address == null)
             {
@@ -27,7 +28,18 @@ namespace UserManagementAPI.Controllers
 
             try
             {
-                await _context.AddAddressAsync(address);
+                var addresss = new Address
+                {
+                    UserId = address.UserId,
+                    Street = address.Street,
+                    City = address.City,
+                    State = address.State,
+                    Country = address.Country,
+                    ZipCode = address.ZipCode,
+                    CreatedAt = DateTime.UtcNow, // Setting created date as current UTC time
+                    UpdatedAt = DateTime.UtcNow  // Initializing updated date as current UTC time
+                };
+                await _context.AddAddressAsync(addresss);
                 return Ok("Address added successfully.");
             }
             catch (Exception ex)
@@ -37,8 +49,8 @@ namespace UserManagementAPI.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAddress(int id, [FromBody] Address address, [FromQuery] int userId)
+        [HttpPut("update-address{id}")]
+        public async Task<IActionResult> UpdateAddress(int id, [FromBody] AddressDTO address, [FromQuery] int userId)
         {
             if (address == null || id != address.AddressId)
             {
@@ -47,7 +59,19 @@ namespace UserManagementAPI.Controllers
 
             try
             {
-                await _context.UpdateAddressAsync(address, userId);
+                var updateaddress = new Address 
+                {
+                    UserId = address.UserId,
+                    Street = address.Street,
+                    City = address.City,
+                    State = address.State,
+                    Country = address.Country,
+                    ZipCode = address.ZipCode,
+                    CreatedAt = DateTime.UtcNow, 
+                    UpdatedAt = DateTime.UtcNow
+                };
+
+                await _context.UpdateAddressAsync(updateaddress, userId);
                 return Ok("Address updated successfully.");
             }
             catch (KeyNotFoundException ex)
@@ -61,7 +85,7 @@ namespace UserManagementAPI.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete-address{id}")]
         public async Task<IActionResult> DeleteAddress( int userId)
         {
             try

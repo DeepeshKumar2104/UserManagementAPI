@@ -21,6 +21,7 @@ builder.Services.AddDbContext<Project5Context>(options =>
 );
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthInterface , AuthServices>();
+builder.Services.AddScoped<IAddressRepository,AddressRepository>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
