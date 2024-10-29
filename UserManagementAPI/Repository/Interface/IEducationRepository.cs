@@ -5,9 +5,8 @@ namespace UserManagementAPI.Repository.Interface
     public interface IEducationRepository
     {
         Task<IEnumerable<Education>> GetAllEducationsAsync();
-        Task<Education> GetEducationByIdAsync(int id);
         Task AddEducationAsync(Education education);
-        Task UpdateEducationAsync(Education education);
+        Task UpdateEducationAsync(Education education,int userid);
         Task DeleteEducationAsync(int id);
     }
 }

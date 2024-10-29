@@ -14,6 +14,8 @@ public partial class Education
     public string? Institution { get; set; }
 
     public DateTime? CreatedAt { get; set; }
+    public DateTime? Updated { get; set; }
+
 
     public virtual User? User { get; set; }
 }

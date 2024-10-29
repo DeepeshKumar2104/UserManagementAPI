@@ -37,7 +37,7 @@ namespace UserManagementAPI.Controllers
                     Country = address.Country,
                     ZipCode = address.ZipCode,
                     CreatedAt = DateTime.UtcNow, // Setting created date as current UTC time
-                    UpdatedAt = DateTime.UtcNow  // Initializing updated date as current UTC time
+                    UpdatedAt = DateTime.UtcNow  
                 };
                 await _context.AddAddressAsync(addresss);
                 return Ok("Address added successfully.");
